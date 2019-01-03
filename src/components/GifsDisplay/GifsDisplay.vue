@@ -1,6 +1,7 @@
 <template>
   <div v-bind:id='[type === "result" ? "gifsDisplay--result" : "gifsDisplay--favourites" ]'>
-    <GifContainer v-for='items in data' :key='items.id' />
+    <GifContainer v-bind:favourite='favourite' v-for='items in data' :key='items.id' 
+    v-bind:gif='items.embed_url' v-bind:index='items.id' v-bind:type='type'/>
   </div>
 </template>
 
@@ -14,7 +15,8 @@ export default {
   },
   props: {
     type: String,
-    data: Array
+    data: Array,
+    favourite: Function
   }
 }
 </script>
