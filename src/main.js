@@ -1,5 +1,6 @@
+// DEPENDENCIES
 import Vue from 'vue'
-import App from './App.vue'
+import App from './containers/App.vue'
 
 Vue.config.productionTip = false
 
