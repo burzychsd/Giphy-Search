@@ -1,10 +1,12 @@
+<!-- TEMPLATE -->
 <template>
   <div v-bind:id='[type === "result" ? "gifsDisplay--result" : "gifsDisplay--favourites" ]'>
-    <GifContainer v-bind:favourite='favourite' v-for='items in data' :key='items.id' 
-    v-bind:gif='items.embed_url' v-bind:index='items.id' v-bind:type='type'/>
+    <GifContainer v-bind:favourite='favourite' v-for='items in data' :key='items' 
+    v-bind:gif='`https://giphy.com/embed/${items}`' v-bind:index='items' v-bind:type='type' v-bind:button='button' />
   </div>
 </template>
 
+<!-- SCRIPT -->
 <script>
 import GifContainer from '../GifContainer'
 
@@ -16,11 +18,13 @@ export default {
   props: {
     type: String,
     data: Array,
-    favourite: Function
+    favourite: Function,
+    button: String
   }
 }
 </script>
 
+<!-- STYLES -->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #gifsDisplay--result, #gifsDisplay--favourites {

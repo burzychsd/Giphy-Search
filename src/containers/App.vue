@@ -1,3 +1,4 @@
+<!-- TEMPLATE -->
 <template>
   <div id="app">
     <SearchForm v-bind:searchValue='searchValue' v-bind:change='handleOnChange' 
@@ -7,10 +8,10 @@
   </div>
 </template>
 
+<!-- SCRIPT -->
 <script>
 import SearchForm from '../components/SearchForm'
 import GifsDisplay from '../components/GifsDisplay'
-import axios from 'axios'
 
 export default {
   name: 'app',
@@ -27,31 +28,41 @@ export default {
     handleOnChange: function(event) { this.searchValue = event.target.value },
     handleOnSubmit: function() {
       const url = `http://api.giphy.com/v1/gifs/search?q=${this.searchValue}&api_key=${process.env.VUE_APP_API_KEY}&limit=5`
-
-      axios.get(url)
-      .then(res => this.results = res.data.data)
-      .catch(err => console.log(err))
+      fetch(url).then(response => response.json())
+      .then(res => this.results = res.data.map(gif => gif.id))
     },
     handleFavourite: function(event, index, status) {
-      if(status === 'add') {
-        const fav = this.favourites
-        const target = this.results.filter(gif => gif.id === index)
-        this.favourites = fav.concat(target)
-        event.target.style.display = 'none'
-      } else { 
-        const gifs = JSON.parse(localStorage.getItem('favourites')).filter(gif => gif.id !== index)
-        this.favourites = gifs
-        localStorage.setItem('favourites', JSON.stringify(gifs))
-      }
-    } 
+      const { getSpecificItem, addItem, removeItem } = this
+      const res = this.results
+      const target = getSpecificItem(res, index) 
+      const fav = this.favourites
+
+      status === 'add' ? addItem(index, fav, target, res) : 
+      removeItem(index)
+    },
+    addItem: function (index, fav, target, res) {
+      const { getSpecificItem, removeDuplicates } = this
+      this.favourites = removeDuplicates(fav.concat(target))
+      this.results = getSpecificItem(res, index, 'remove')
+    },
+    removeItem: function (index) {
+      const { getSpecificItem } = this
+      const gifs = JSON.parse(localStorage.getItem('favourites'))
+      this.favourites = getSpecificItem(gifs, index, 'remove')
+      localStorage.setItem('favourites', JSON.stringify(gifs))
+    },
+    getSpecificItem: function (arr, index, status) {
+      return status === 'remove' ? arr.filter(el => el !== index) :
+                            arr.filter(el => el === index)
+    },
+    removeDuplicates: function (arr) {
+      return arr.filter((id, i, array) => array.indexOf(id) === i)
+    }
   },
   watch: {
     favourites: function() {
       localStorage.setItem('favourites', JSON.stringify(this.favourites))
     }
-  },
-  updated: function() {
-    this.handleOnSubmit()
   },
   mounted: function() {
     const condition = localStorage.getItem('favourites');
@@ -60,6 +71,7 @@ export default {
 }
 </script>
 
+<!-- STYLES -->
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

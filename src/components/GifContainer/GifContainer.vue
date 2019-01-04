@@ -1,3 +1,4 @@
+<!-- TEMPLATE -->
 <template>
   <div id='gifContainer'>
     <iframe v-bind:src='gif' width="100%" frameBorder=allowFullScreen></iframe>
@@ -6,6 +7,7 @@
   </div>
 </template>
 
+<!-- SCRIPT -->
 <script>
 export default {
   name: 'GifContainer',
@@ -18,6 +20,7 @@ export default {
 }
 </script>
 
+<!-- STYLES -->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   button {

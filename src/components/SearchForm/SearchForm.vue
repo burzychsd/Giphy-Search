@@ -1,3 +1,4 @@
+<!-- TEMPLATE -->
 <template>
   <form v-on:submit.prevent>
     <input name='search' v-bind:value='search' type='search' v-on:input='change'>
@@ -5,6 +6,7 @@
   </form>
 </template>
 
+<!-- SCRIPT -->
 <script>
 export default {
   name: 'SearchForm',
@@ -20,6 +22,7 @@ export default {
 }
 </script>
 
+<!-- STYLES -->
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   form {
