@@ -2,20 +2,30 @@
 <template>
   <div id='gifContainer'>
     <iframe v-bind:src='gif' width="100%" frameBorder=allowFullScreen></iframe>
-    <button v-on:click='favourite($event, index, "add")' v-if='type === "result"'>Like</button>
-    <button v-on:click='favourite($event, index, "remove")' v-else>Unlike</button>
+    <button v-on:click='handleUpdateItems(index, "add")' v-if='type === "results"'>Like</button>
+    <button v-on:click='handleUpdateItems(index, "remove")' v-else>Unlike</button>
   </div>
 </template>
 
 <!-- SCRIPT -->
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'GifContainer',
   props: {
     gif: String,
     type: String,
     index: String,
-    favourite: Function
+  },
+
+  methods: {
+    ...mapActions([
+      'updateItems'
+    ]),
+    handleUpdateItems: function(index, status) {
+      this.updateItems({ index, status })
+    }
   }
 }
 </script>

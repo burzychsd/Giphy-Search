@@ -1,8 +1,8 @@
 <!-- TEMPLATE -->
 <template>
-  <div v-bind:id='[type === "result" ? "gifsDisplay--result" : "gifsDisplay--favourites" ]'>
-    <GifContainer v-bind:favourite='favourite' v-for='items in data' :key='items' 
-    v-bind:gif='`https://giphy.com/embed/${items}`' v-bind:index='items' v-bind:type='type' v-bind:button='button' />
+  <div v-bind:id='[type === "results" ? "gifsDisplay--result" : "gifsDisplay--favourites" ]'>
+    <GifContainer v-for='items in data' :key='items' 
+    v-bind:gif='`https://giphy.com/embed/${items}`' v-bind:index='items' v-bind:type='type' />
   </div>
 </template>
 
@@ -17,9 +17,7 @@ export default {
   },
   props: {
     type: String,
-    data: Array,
-    favourite: Function,
-    button: String
+    data: Array
   }
 }
 </script>

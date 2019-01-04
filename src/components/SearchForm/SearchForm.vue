@@ -1,24 +1,28 @@
 <!-- TEMPLATE -->
 <template>
   <form v-on:submit.prevent>
-    <input name='search' v-bind:value='search' type='search' v-on:input='change'>
-    <button v-on:click='submit'>Search</button>
+    <input name='search' v-model='search' type='search' >
+    <button v-on:click='handleOnSubmit(search)'>Search</button>
   </form>
 </template>
 
 <!-- SCRIPT -->
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'SearchForm',
-  props: {
-    searchValue: String,
-    change: Function,
-    submit: Function
-  },
   data: () => ({
     search: ''
   }),
-  updated: function() { this.search = this.searchValue }
+  methods: {
+    ...mapActions([
+      'onSubmit'
+    ]),
+    handleOnSubmit: function(value) {
+      this.onSubmit(value)
+    }
+  }
 }
 </script>
 
